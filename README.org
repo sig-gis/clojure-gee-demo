@@ -1,17 +1,78 @@
-* Installation Requirements
+* Clojure GEE Demo
 
-  - JDK
-  - Clojure CLI
-  - Python (version 3)
-  - Python earthengine-api library https://pypi.org/project/earthengine-api/
+This repository contains some simple examples of how to access the
+Google Earth Engine API from Clojure. We accomplish this by loading
+the Python API provided by Google (earthengine-api) into our Clojure
+code via the excellent [[https://github.com/clj-python/libpython-clj][libpython-clj]] library.
 
-* GEE Authentication
+** Installation Requirements
 
-To use GEE, you must grant GEE access to your Google account via an OAuth2 workflow:
+- [[https://jdk.java.net][Java Development Kit (version 11+)]]
+- [[https://clojure.org/guides/getting_started][Clojure CLI tools]]
+- [[https://www.python.org/][Python (version 3)]]
+- [[https://pypi.org/project/earthengine-api/][Python earthengine-api library]]
+
+** GEE Authentication
+
+To use Google Earth Engine, you must grant it access to your Google
+account via an OAuth2 workflow:
 
 #+begin_src sh
 earthengine authenticate
-earthengine authenticate --authorization-code=<COPY_CODE_FROM_BROWSER>
+# Follow the browser link to give GEE access to your Google account.
+# Then copy the provided ID into the following command.
+earthengine authenticate --authorization-code=<ID_FROM_BROWSER>
 #+end_src
 
-Your authentication token will now be stored in $HOME/.config/earthengine/credentials.
+Your authentication token will be stored in
+=$HOME/.config/earthengine/credentials=. This is used automatically by
+your Clojure code whenever you run ~(ee/Initialize)~.
+
+** Download libpython-clj
+
+This is easily accomplished by simply running the ~clojure~ command
+once from this repository's toplevel directory.
+
+#+begin_src sh
+clojure
+#+end_src
+
+As with all Clojure libraries, it will be downloaded and saved under
+your =$HOME/.m2/repository/= directory.
+
+** Usage
+
+To test out the example code in this repository, simply open any of
+the files under =src/clojure_gee_demo/= in your Clojure development
+environment of choice, load the file into your REPL, and have fun!
+
+When the first ~require-python~ form is evaluated,
+~libpython-clj.python/initialize!~ will be called automatically. This
+should autodetect your installed version of Python and add its library
+path to the Java classpath, so that Python modules can be loaded into
+Clojure namespaces. This can emit quite a bit of noise into your REPL,
+but fear not! These should be merely informational messages rather
+than any program errors.
+
+If you are using a non-standard Python installation, take a look at
+the docs for ~libpython-clj.python/initialize!~. By calling this
+function at the top of your namespace, you can specify the locations
+of the various executables and directories associated with your
+particular Python setup.
+
+** Docs
+
+- For an overview of Google Earth Engine and to see tutorials on its
+  many features, go [[https://developers.google.com/earth-engine/guides][here]].
+
+- For an overview of libpython-clj, go [[https://github.com/clj-python/libpython-clj][here]].
+
+- For the detailed libpython-clj API, go [[https://clj-python.github.io/libpython-clj][here]].
+
+** License and Distribution
+
+Copyright © 2021 Spatial Informatics Group, LLC.
+
+Clojure GEE Demo is distributed by Spatial Informatics Group, LLC.
+under the terms of the Eclipse Public License version 2.0 (EPLv2). See
+LICENSE.txt in this directory for more information.
