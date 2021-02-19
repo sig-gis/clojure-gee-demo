@@ -1,0 +1,17 @@
+* Installation Requirements
+
+  - JDK
+  - Clojure CLI
+  - Python (version 3)
+  - Python earthengine-api library https://pypi.org/project/earthengine-api/
+
+* GEE Authentication
+
+To use GEE, you must grant GEE access to your Google account via an OAuth2 workflow:
+
+#+begin_src sh
+earthengine authenticate
+earthengine authenticate --authorization-code=<COPY_CODE_FROM_BROWSER>
+#+end_src
+
+Your authentication token will now be stored in $HOME/.config/earthengine/credentials.
